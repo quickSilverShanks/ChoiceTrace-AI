@@ -73,7 +73,7 @@ export default function RootLayout({
   useEffect(() => {
     async function loginAndFetch() {
       try {
-        let activeToken = localStorage.getItem('carbonnudge_token');
+        let activeToken = localStorage.getItem('choicetrace_token');
         
         if (!activeToken) {
           // Log in with seeded user credentials
@@ -86,7 +86,7 @@ export default function RootLayout({
           if (res.ok) {
             const data = await res.json();
             activeToken = data.access_token;
-            localStorage.setItem('carbonnudge_token', activeToken || '');
+            localStorage.setItem('choicetrace_token', activeToken || '');
           }
         }
         
@@ -173,7 +173,7 @@ export default function RootLayout({
                 </div>
                 <div>
                   <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-100 to-emerald-400 bg-clip-text text-transparent">
-                    CarbonNudge
+                    ChoiceTrace
                   </h1>
                   <span className="text-xs font-semibold text-emerald-500 tracking-widest uppercase">AI Coach</span>
                 </div>
@@ -236,7 +236,7 @@ export default function RootLayout({
             <div className="lg:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-darkbg-100 border-b border-slate-800 px-4 py-3">
               <div className="flex items-center space-x-2">
                 <Leaf className="h-5 w-5 text-emerald-400" />
-                <span className="font-bold text-lg">CarbonNudge AI</span>
+                <span className="font-bold text-lg">ChoiceTrace AI</span>
               </div>
               <button 
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -374,7 +374,7 @@ export default function RootLayout({
                 {loading ? (
                   <div className="flex flex-col items-center justify-center h-64 space-y-4">
                     <RefreshCw className="h-10 w-10 text-emerald-400 animate-spin" />
-                    <p className="text-slate-400 text-sm font-medium">Initializing CarbonNudge sustainability engine...</p>
+                    <p className="text-slate-400 text-sm font-medium">Initializing ChoiceTrace sustainability engine...</p>
                   </div>
                 ) : (
                   children

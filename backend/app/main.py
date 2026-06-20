@@ -70,4 +70,4 @@ def seed_demo_user():
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to CarbonNudge AI API. Access documentation at /api/docs"}
+    return {"message": "Welcome to ChoiceTrace AI API. Access documentation at /api/docs"}

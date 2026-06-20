@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# CarbonNudge AI - GCP Infrastructure Setup Automation
+# ChoiceTrace AI - GCP Infrastructure Setup Automation
 # ==============================================================================
 # This script provisions:
 # 1. Required Google Cloud APIs
@@ -20,9 +20,9 @@ if [ -z "$PROJECT_ID" ] || [ "$PROJECT_ID" = "(unset)" ]; then
     exit 1
 fi
 REGION="us-central1"
-REPO_NAME="carbonnudge-repo"
-DB_INSTANCE="carbonnudge-db"
-DB_NAME="carbonnudge"
+REPO_NAME="choicetrace-repo"
+DB_INSTANCE="choicetrace-db"
+DB_NAME="choicetrace"
 GEMINI_KEY_SECRET_NAME="GEMINI_API_KEY"
 
 echo "========================================================"
@@ -43,7 +43,7 @@ echo "--> Creating Artifact Registry repository..."
 gcloud artifacts repositories create $REPO_NAME \
     --repository-format=docker \
     --location=$REGION \
-    --description="Docker repository for CarbonNudge AI frontend and backend" || echo "Repository already exists."
+    --description="Docker repository for ChoiceTrace AI frontend and backend" || echo "Repository already exists."
 
 # 3. Setup Secret Manager for Gemini API Key
 echo "--> Setting up GCP Secret Manager for Gemini API Key..."
@@ -101,7 +101,7 @@ else
         fi
     fi
 
-    DB_CONN_URL="postgresql://postgres:${DB_PASSWORD}@/carbonnudge?host=/cloudsql/${PROJECT_ID}:${REGION}:${DB_INSTANCE}"
+    DB_CONN_URL="postgresql://postgres:${DB_PASSWORD}@/${DB_NAME}?host=/cloudsql/${PROJECT_ID}:${REGION}:${DB_INSTANCE}"
     echo -n "$DB_CONN_URL" | gcloud secrets versions add $DB_SECRET_NAME --data-file=-
     echo "Database URL successfully stored in Secret Manager."
 fi

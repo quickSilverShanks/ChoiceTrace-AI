@@ -169,7 +169,7 @@ def get_activity_recommendation(activity_type: str, current_choice: str, details
         try:
             model = genai.GenerativeModel('gemini-1.5-flash')
             prompt = f"""
-            You are CarbonNudge AI, a proactive sustainability coach.
+            You are ChoiceTrace AI, a proactive sustainability coach.
             Generate a low-carbon alternative for a user with the persona '{persona}' ({PERSONA_PROFILES.get(persona, {}).get('description', '')}).
             
             Activity Type: {activity_type}
@@ -239,7 +239,7 @@ def get_coach_response(user_message: str, chat_history: List[Dict[str, str]], pe
                 history_prompt += f"{role}: {h['content']}\n"
                 
             prompt = f"""
-            You are CarbonNudge AI, a friendly, encouraging personal sustainability coach (like a combination of Duolingo, Fitbit, and ChatGPT for carbon reduction).
+            You are ChoiceTrace AI, a friendly, encouraging personal sustainability coach (like a combination of Duolingo, Fitbit, and ChatGPT for carbon reduction).
             The user is a '{persona}' ({PERSONA_PROFILES.get(persona, {}).get('description', '')}).
             
             Chat History:
@@ -311,7 +311,7 @@ def get_habit_insights(activities: List[Dict[str, Any]], persona: str = "profess
             model = genai.GenerativeModel('gemini-1.5-flash')
             activities_json = json.dumps(activities[-10:])
             prompt = f"""
-            You are CarbonNudge AI. Analyze this user's recent activities and generate 3 bullet points of insights.
+            You are ChoiceTrace AI. Analyze this user's recent activities and generate 3 bullet points of insights.
             User Persona: {persona}
             Recent logs: {activities_json}
             

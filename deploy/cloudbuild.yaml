@@ -21,12 +21,12 @@ steps:
     args:
       - 'run'
       - 'deploy'
-      - 'carbonnudge-backend'
+      - 'choicetrace-backend'
       - '--image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/backend-image:${COMMIT_SHA}'
       - '--region=${_REGION}'
       - '--platform=managed'
       - '--allow-unauthenticated'
-      - '--add-cloudsql-instances=${PROJECT_ID}:${_REGION}:carbonnudge-db' # Link Cloud SQL DB
+      - '--add-cloudsql-instances=${PROJECT_ID}:${_REGION}:choicetrace-db' # Link Cloud SQL DB
       # Retrieve API Key and DATABASE_URL securely from Secret Manager
       - '--set-secrets=DATABASE_URL=DATABASE_URL:latest,GEMINI_API_KEY=GEMINI_API_KEY:latest'
 
@@ -36,9 +36,9 @@ steps:
     args:
       - '-c'
       - |
-        BACKEND_URL=$(gcloud run services describe carbonnudge-backend --platform=managed --region=${_REGION} --format="value(status.url)")
+        BACKEND_URL=$(gcloud run services describe choicetrace-backend --platform=managed --region=${_REGION} --format="value(status.url)")
         echo "Successfully retrieved backend URL: $$BACKEND_URL"
-        gcloud run deploy carbonnudge-frontend \
+        gcloud run deploy choicetrace-frontend \
           --image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/frontend-image:${COMMIT_SHA} \
           --region=${_REGION} \
           --platform=managed \
@@ -51,4 +51,4 @@ images:
 
 substitutions:
   _REGION: us-central1
-  _REPOSITORY: carbonnudge-repo
+  _REPOSITORY: choicetrace-repo

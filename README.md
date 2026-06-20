@@ -1,6 +1,6 @@
-# CarbonNudge AI - Proactive Sustainability Coach
+# ChoiceTrace AI - Proactive Sustainability Coach
 
-CarbonNudge AI is a production-ready real-time carbon awareness and behavior change platform. Most sustainability tools focus on retrospective carbon accounting reports at the end of the month. CarbonNudge AI operates under a different philosophy: **nudging users toward lower-carbon choices during everyday decision-making moments before they act.**
+ChoiceTrace AI is a production-ready real-time carbon awareness and behavior change platform. Most sustainability tools focus on retrospective carbon accounting reports at the end of the month. ChoiceTrace AI operates under a different philosophy: **nudging users toward lower-carbon choices during everyday decision-making moments before they act.**
 
 Designed as a modern full-stack web application, it combines Next.js, FastAPI, PostgreSQL, and Google Gemini AI, deployable on Google Cloud Platform.
 
@@ -98,7 +98,7 @@ ChoiceTrace-AI/
 ## 🕹️ Product User Guide
 
 ### 1. Simulated Profile Switching
-In the sidebar, locate the **Profile Simulator** panel. CarbonNudge AI allows switching user personas dynamically. Select from:
+In the sidebar, locate the **Profile Simulator** panel. ChoiceTrace AI allows switching user personas dynamically. Select from:
 * 🎓 **Student**: Offers budget-centric, low-cost plant-based choices and commuter advice.
 * 👔 **Working Professional**: Focuses on convenience, smart electricity tips, and premium refurbished switches.
 * 🚇 **Urban Commuter**: Emphasizes multi-modal transit options (bikes, e-scooters, rails).
@@ -185,7 +185,7 @@ npm run dev
 
 ## 🚀 GCP Deployment Guide (via Google Cloud Shell)
 
-Deploying CarbonNudge AI to Google Cloud Platform is fully automated and designed to run directly from **Google Cloud Shell**. Follow this step-by-step guide to get your production-ready application live on GCP.
+Deploying ChoiceTrace AI to Google Cloud Platform is fully automated and designed to run directly from **Google Cloud Shell**. Follow this step-by-step guide to get your production-ready application live on GCP.
 
 ### 📋 Prerequisites
 - A Google Cloud Platform (GCP) account.
@@ -249,7 +249,7 @@ During execution, the script will prompt you for:
 Trigger Google Cloud Build to compile the Docker containers for the frontend and backend, push them to your GCP Artifact Registry repository, and deploy them to Cloud Run.
 
 ```bash
-gcloud builds submit --config=deploy/cloudbuild.yaml --substitutions=_REGION=us-central1,_REPOSITORY=carbonnudge-repo
+gcloud builds submit --config=deploy/cloudbuild.yaml --substitutions=_REGION=us-central1,_REPOSITORY=choicetrace-repo
 ```
 
 This pipeline automatically handles deployment dependencies:
@@ -262,8 +262,8 @@ This pipeline automatically handles deployment dependencies:
 
 ### Step 6: Access the Live Application
 When the build finishes, it will print the URLs of both deployed services.
-1. Look for the URL printed under the deployment of the frontend service `carbonnudge-frontend` (e.g., `https://carbonnudge-frontend-xxxxxx-uc.a.run.app`).
-2. Click the link to open the CarbonNudge AI web app in your browser!
+1. Look for the URL printed under the deployment of the frontend service `choicetrace-frontend` (e.g., `https://choicetrace-frontend-xxxxxx-uc.a.run.app`).
+2. Click the link to open the ChoiceTrace AI web app in your browser!
 3. Login using the default credentials seeded during backend startup:
    - **Username**: `demo_user`
    - **Password**: `password123`
@@ -275,16 +275,16 @@ If you wish to tear down the application and prevent ongoing GCP database or com
 
 ```bash
 # Delete Cloud Run services
-gcloud run services delete carbonnudge-frontend --region=us-central1 --quiet
-gcloud run services delete carbonnudge-backend --region=us-central1 --quiet
+gcloud run services delete choicetrace-frontend --region=us-central1 --quiet
+gcloud run services delete choicetrace-backend --region=us-central1 --quiet
 
 # Delete Cloud SQL Database Instance (Permanent deletion of data)
-gcloud sql instances delete carbonnudge-db --quiet
+gcloud sql instances delete choicetrace-db --quiet
 
 # Delete stored secrets from Secret Manager
 gcloud secrets delete GEMINI_API_KEY --quiet
 gcloud secrets delete DATABASE_URL --quiet
 
 # Delete Artifact Registry docker images
-gcloud artifacts repositories delete carbonnudge-repo --location=us-central1 --quiet
+gcloud artifacts repositories delete choicetrace-repo --location=us-central1 --quiet
 ```
