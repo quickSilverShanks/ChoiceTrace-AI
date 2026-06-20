@@ -150,36 +150,92 @@ Navigate to **Community Achievements**:
 
 ---
 
-## 🛠️ Installation & Verification Guide
+## 🛠️ Local Installation & Verification Guide (via Docker Compose)
 
-Follow these steps to set up the workspace for testing and verification without container environments.
+The easiest and recommended way to run ChoiceTrace AI locally on your personal laptop is using **Docker Compose**. This spins up the Next.js frontend, FastAPI backend, and PostgreSQL database automatically in a fully containerized environment.
 
-### 1. Backend Setup (FastAPI)
+### 📋 Prerequisites
+- Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) on your laptop.
+- (Optional) A Google Gemini API Key.
+
+---
+
+### Step 1: Set Up Environment Variables
+1. In the root directory of the project, create a copy of the `.env.example` file and name it `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+2. Open the `.env` file and insert your Gemini API Key:
+   ```env
+   GEMINI_API_KEY=your-actual-api-key-here
+   ```
+   *If you do not have an API key, you can leave it blank. ChoiceTrace AI will run using a local high-fidelity AI recommendation simulator.*
+
+---
+
+### Step 2: Spin Up the Containers
+From the project root directory, run the following command to build and launch all services:
+```bash
+# Build and run the containers in the foreground
+docker compose up --build
+```
+*Note: If you want to run it in the background, append the `-d` flag (i.e. `docker compose up --build -d`).*
+
+This command automatically pulls the official Postgres image, builds the Next.js frontend and FastAPI backend containers, connects them to a private virtual network, and exposes them to your host laptop.
+
+---
+
+### Step 3: Verify the Running Services
+
+1. **Verify the Next.js Frontend**:
+   - Open your browser and navigate to `http://localhost:3000`.
+   - The application will automatically load and log in as `demo_user` (credentials seeded automatically on backend boot). You will see the main Decision Feed and AI coach interface.
+
+2. **Verify the FastAPI Backend API & Documentation**:
+   - Open your browser and navigate to `http://localhost:8080/api/docs`.
+   - This opens the interactive **Swagger OpenAPI UI** showing all endpoints, where you can inspect and test the API directly.
+
+3. **Verify the PostgreSQL Database**:
+   - The database is fully initialized inside the Docker network, and any modifications you make inside the app (e.g. accepting a nudge, logging a commute, adding a what-if scenario) are persisted to the container's volume.
+
+---
+
+### Step 4: Stopping the Containers
+To stop and clean up the local containers, run:
+```bash
+docker compose down
+```
+
+---
+
+### 💻 Alternative: Running Without Docker (Manual Local Setup)
+If you prefer to run the services directly on your laptop without Docker:
+
+#### 1. Backend Setup (FastAPI)
 Open a terminal in the `./backend` directory:
 ```bash
 # Create python virtual environment
 python -m venv venv
-source venv/Scripts/activate  # On Windows
+source venv/Scripts/activate  # On Windows (Use source venv/bin/activate on macOS/Linux)
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Run server (default on port 8000, we'll map to 8080)
-# (If GEMINI_API_KEY is not defined in system environment, API falls back to mock recommendations)
+# Run server (runs on port 8080 by default)
 uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
 ```
-*Verification*: Open `http://localhost:8080/api/docs` in your browser. You will see the interactive Swagger UI listing all endpoints.
+*Verification*: Open `http://localhost:8080/api/docs` in your browser.
 
-### 2. Frontend Setup (Next.js)
+#### 2. Frontend Setup (Next.js)
 Open another terminal in the `./frontend` directory:
 ```bash
 # Install dependencies
 npm install
 
-# Start Next.js development server
+# Start Next.js development server (runs on port 3000)
 npm run dev
 ```
-*Verification*: Open `http://localhost:3000` in your browser. The application will automatically login as `demo_user` (seeded on backend startup) and render the dashboard layout.
+*Verification*: Open `http://localhost:3000` in your browser.
 
 ---
 
