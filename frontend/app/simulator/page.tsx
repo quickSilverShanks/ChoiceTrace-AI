@@ -57,6 +57,11 @@ export default function SimulatorPage() {
   const [scenarioName, setScenarioName] = useState('');
   const [savedSims, setSavedSims] = useState<SavedSimulation[]>([]);
   const [saving, setSaving] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Recalculate values when sliders change
   useEffect(() => {
@@ -308,23 +313,25 @@ export default function SimulatorPage() {
               <TrendingDown className="h-4 w-4 mr-1 text-emerald-400" /> Carbon Avoidance Accumulation
             </h4>
             <div className="h-44 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={timelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 9 }} />
-                  <YAxis tick={{ fill: '#94a3b8', fontSize: 9 }} />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px' }}
-                    itemStyle={{ color: '#34d399' }}
-                  />
-                  <Area type="monotone" dataKey="emissions" stroke="#10b981" fillOpacity={0.25} fill="url(#colorSaved)" />
-                  <defs>
-                    <linearGradient id="colorSaved" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
-                      <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                </AreaChart>
-              </ResponsiveContainer>
+              {mounted && (
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={timelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                    <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 9 }} />
+                    <YAxis tick={{ fill: '#94a3b8', fontSize: 9 }} />
+                    <Tooltip 
+                      contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px' }}
+                      itemStyle={{ color: '#34d399' }}
+                    />
+                    <Area type="monotone" dataKey="emissions" stroke="#10b981" fillOpacity={0.25} fill="url(#colorSaved)" />
+                    <defs>
+                      <linearGradient id="colorSaved" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
+                        <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                  </AreaChart>
+                </ResponsiveContainer>
+              )}
             </div>
           </section>
 

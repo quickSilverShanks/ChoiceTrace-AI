@@ -74,6 +74,7 @@ export default function GamifiedDashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [claimingChallengeId, setClaimingChallengeId] = useState<number | null>(null);
+  const [mounted, setMounted] = useState<boolean>(false);
 
   const fetchDashboardData = async () => {
     if (!token) return;
@@ -93,6 +94,7 @@ export default function GamifiedDashboardPage() {
   };
 
   useEffect(() => {
+    setMounted(true);
     fetchDashboardData();
     
     const handlePersonaChange = () => {
@@ -253,22 +255,24 @@ export default function GamifiedDashboardPage() {
             </h3>
             
             <div className="h-56 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
-                  <XAxis dataKey="category" tick={{ fill: '#94a3b8', fontSize: 9 }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} axisLine={false} tickLine={false} />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px' }}
-                    labelStyle={{ fontWeight: 'bold', color: '#10b981' }}
-                    itemStyle={{ color: '#fff' }}
-                  />
-                  <Bar dataKey="savings" radius={[4, 4, 0, 0]}>
-                    {chartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+              {mounted && (
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
+                    <XAxis dataKey="category" tick={{ fill: '#94a3b8', fontSize: 9 }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} axisLine={false} tickLine={false} />
+                    <Tooltip 
+                      contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px' }}
+                      labelStyle={{ fontWeight: 'bold', color: '#10b981' }}
+                      itemStyle={{ color: '#fff' }}
+                    />
+                    <Bar dataKey="savings" radius={[4, 4, 0, 0]}>
+                      {chartData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
             </div>
             <div className="text-center text-[10px] text-slate-500 font-mono uppercase tracking-wider">
               Values represent total kg CO₂ prevented
