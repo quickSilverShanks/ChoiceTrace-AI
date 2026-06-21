@@ -9,7 +9,7 @@ import app.schemas as schemas
 
 router = APIRouter(prefix="/roadmap", tags=["roadmap"])
 
-@router.get("/", response_model=List[schemas.RoadmapItemOut])
+@router.get("", response_model=List[schemas.RoadmapItemOut])
 def get_my_roadmap(
     current_user: schemas.UserOut = Depends(get_current_user),
     db: Session = Depends(get_db)

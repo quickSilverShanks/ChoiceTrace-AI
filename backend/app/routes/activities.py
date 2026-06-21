@@ -60,7 +60,7 @@ def record_user_choice(
         raise HTTPException(status_code=404, detail="Activity log not found")
     return updated_activity
 
-@router.get("/", response_model=List[schemas.ActivityLogOut])
+@router.get("", response_model=List[schemas.ActivityLogOut])
 def get_user_activities(
     current_user: schemas.UserOut = Depends(get_current_user),
     db: Session = Depends(get_db)

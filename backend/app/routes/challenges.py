@@ -9,7 +9,7 @@ import app.schemas as schemas
 
 router = APIRouter(prefix="/challenges", tags=["challenges"])
 
-@router.get("/", response_model=List[schemas.ChallengeOut])
+@router.get("", response_model=List[schemas.ChallengeOut])
 def get_my_challenges(
     current_user: schemas.UserOut = Depends(get_current_user),
     db: Session = Depends(get_db)
