@@ -1,19 +1,19 @@
 steps:
   # 1. Build Backend image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/backend-image:${COMMIT_SHA}', './backend']
+    args: ['build', '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/backend-image:${_COMMIT_SHA}', './backend']
 
   # 2. Build Frontend image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/frontend-image:${COMMIT_SHA}', './frontend']
+    args: ['build', '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/frontend-image:${_COMMIT_SHA}', './frontend']
 
   # 3. Push Backend image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/backend-image:${COMMIT_SHA}']
+    args: ['push', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/backend-image:${_COMMIT_SHA}']
 
   # 4. Push Frontend image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/frontend-image:${COMMIT_SHA}']
+    args: ['push', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/frontend-image:${_COMMIT_SHA}']
 
   # 5. Deploy Backend to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -22,7 +22,7 @@ steps:
       - 'run'
       - 'deploy'
       - 'choicetrace-backend'
-      - '--image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/backend-image:${COMMIT_SHA}'
+      - '--image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/backend-image:${_COMMIT_SHA}'
       - '--region=${_REGION}'
       - '--platform=managed'
       - '--allow-unauthenticated'
@@ -39,16 +39,17 @@ steps:
         BACKEND_URL=$(gcloud run services describe choicetrace-backend --platform=managed --region=${_REGION} --format="value(status.url)")
         echo "Successfully retrieved backend URL: $$BACKEND_URL"
         gcloud run deploy choicetrace-frontend \
-          --image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/frontend-image:${COMMIT_SHA} \
+          --image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/frontend-image:${_COMMIT_SHA} \
           --region=${_REGION} \
           --platform=managed \
           --allow-unauthenticated \
           --set-env-vars=BACKEND_API_URL=$$BACKEND_URL/api
 
 images:
-  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/backend-image:${COMMIT_SHA}'
-  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/frontend-image:${COMMIT_SHA}'
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/backend-image:${_COMMIT_SHA}'
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/frontend-image:${_COMMIT_SHA}'
 
 substitutions:
   _REGION: us-central1
   _REPOSITORY: choicetrace-repo
+  _COMMIT_SHA: latest
