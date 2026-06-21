@@ -1,18 +1,19 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from datetime import datetime, date, timedelta
-from passlib.context import CryptContext
+import bcrypt
 import json
 from app.models import User, ActivityLog, Challenge, Badge, RoadmapItem, Simulation
 from app.schemas import UserCreate, ActivityLogCreate, SimulationCreate
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    try:
+        return bcrypt.checkpw(plain_password.encode("utf-8"), hashed_password.encode("utf-8"))
+    except Exception:
+        return False
 
 # User CRUDS
 def get_user(db: Session, user_id: int):

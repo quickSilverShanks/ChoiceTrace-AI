@@ -316,7 +316,29 @@ This pipeline automatically handles deployment dependencies:
 
 ---
 
-### Step 6: Access the Live Application
+### Step 6: Expose Services Publicly (IAM Policy Binding)
+Depending on your GCP organization/project settings, the Cloud Run services may default to private. Grant public access to both the frontend and backend services by running:
+
+```bash
+# Allow public access to the frontend
+gcloud run services add-iam-policy-binding choicetrace-frontend \
+    --member="allUsers" \
+    --role="roles/run.invoker" \
+    --region=us-central1
+
+# Allow public access to the backend
+gcloud run services add-iam-policy-binding choicetrace-backend \
+    --member="allUsers" \
+    --role="roles/run.invoker" \
+    --region=us-central1
+```
+
+> [!NOTE]
+> If these commands fail with a **Domain Restricted Sharing** constraint error, disable the policy constraint under GCP Console -> **IAM & Admin** -> **Organization Policies** for the **Domain Restricted Sharing** key, then retry.
+
+---
+
+### Step 7: Access the Live Application
 When the build finishes, it will print the URLs of both deployed services.
 1. Look for the URL printed under the deployment of the frontend service `choicetrace-frontend` (e.g., `https://choicetrace-frontend-xxxxxx-uc.a.run.app`).
 2. Click the link to open the ChoiceTrace AI web app in your browser!
