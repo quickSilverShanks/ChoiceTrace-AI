@@ -48,24 +48,35 @@ Designed as a modern full-stack web application, it combines Next.js, FastAPI, P
 
 ```
 ChoiceTrace-AI/
+├── .env.example                 # Template for environment variables
+├── docker-compose.yml           # Core local container orchestration launcher
+├── LICENSE                      # Project license
+├── README.md                    # Master documentation guide
+│
 ├── backend/
 │   ├── app/
 │   │   ├── routes/              # FastAPI Router endpoints
-│   │   │   ├── auth.py          # User auth, persona/profile switching
 │   │   │   ├── activities.py    # Decision feed logging & evaluation
+│   │   │   ├── auth.py          # User auth, persona/profile switching
 │   │   │   ├── challenges.py    # Daily micro-actions complete endpoints
 │   │   │   ├── coach.py         # Conversational Coach API
 │   │   │   ├── dashboard.py     # Carbon dashboard, Recharts aggregates, Leaderboard
-│   │   │   ├── roadmap.py       # 30-day checklist checklist tracking
+│   │   │   ├── roadmap.py       # 30-day checklist tracking
 │   │   │   └── simulator.py     # What-If simulator calculations
 │   │   ├── ai.py                # Gemini integration & local mock recommendations
 │   │   ├── config.py            # Environment configurations (Pydantic Settings)
+│   │   ├── crud.py              # Database CRUD helper functions
 │   │   ├── database.py          # SQLAlchemy PostgreSQL connection settings
 │   │   ├── main.py              # FastAPI main entrypoint and cors handlers
 │   │   ├── models.py            # SQLAlchemy database tables
 │   │   └── schemas.py           # Pydantic schemas (validations)
-│   ├── Dockerfile               # Multi-stage python image
-│   └── requirements.txt         # Backend python libraries
+│   ├── tests/                   # Pytest API unit testing suite
+│   │   ├── conftest.py          # SQLite in-memory database test fixtures
+│   │   ├── test_activities.py   # Decision evaluation & feed tests
+│   │   ├── test_auth.py         # Registration, login & profile tests
+│   │   └── test_challenges_roadmap.py  # Gamification checklist tests
+│   ├── Dockerfile               # Multi-stage Python image builder
+│   └── requirements.txt         # Backend Python libraries
 │
 ├── frontend/
 │   ├── app/                     # Next.js App Router views
@@ -77,7 +88,8 @@ ChoiceTrace-AI/
 │   │   ├── globals.css          # Styling layout variables
 │   │   ├── layout.tsx           # Global sidebar navigation & Profile Simulator
 │   │   └── page.tsx             # Primary Decision Feed (What are you about to do?)
-│   ├── components/              # Utility React widgets
+│   ├── public/                  # Directory for static public assets
+│   │   └── .gitkeep             # Placeholder to retain the folder in Git
 │   ├── Dockerfile               # Node builder/runner stages
 │   ├── next.config.js           # Next configuration
 │   ├── package.json             # NPM dependencies
@@ -89,7 +101,7 @@ ChoiceTrace-AI/
 │   └── setup_gcp.sh             # Bash infrastructure setup script
 │
 ├── docker-compose.yml           # Core local container orchestration launcher
-├── LICENSE
+├── LICENSE                      # Project license
 └── README.md                    # Master guide document
 ```
 
@@ -150,7 +162,7 @@ Navigate to **Community Achievements**:
 
 ---
 
-## 🛠️ Local Installation & Verification Guide (via Docker Compose)
+## 🕹️ Local Installation & Verification Guide (via Docker Compose)
 
 The easiest and recommended way to run ChoiceTrace AI locally on your personal laptop is using **Docker Compose**. This spins up the Next.js frontend, FastAPI backend, and PostgreSQL database automatically in a fully containerized environment.
 
@@ -205,6 +217,26 @@ To stop and clean up the local containers, run:
 ```bash
 docker compose down
 ```
+
+---
+
+### 🧪 Running Unit Tests
+A comprehensive unit testing suite is included to verify the backend's database schema, authentication routes, activity evaluators, and challenges/roadmap logic. The tests use `pytest` and automatically run against an isolated in-memory SQLite database (requiring no database server configuration).
+
+To execute the unit tests:
+1. Open a terminal in the `./backend` directory.
+2. Activate your virtual environment (if running a manual local setup):
+   ```bash
+   # On Windows:
+   source venv/Scripts/activate
+   
+   # On macOS/Linux:
+   source venv/bin/activate
+   ```
+3. Run the test suite:
+   ```bash
+   pytest
+   ```
 
 ---
 
