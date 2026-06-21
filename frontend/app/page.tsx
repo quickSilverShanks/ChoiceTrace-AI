@@ -86,7 +86,7 @@ export default function DecisionFeedPage() {
   const fetchFeed = async () => {
     if (!token) return;
     try {
-      const res = await fetch(`${apiBase}/activities/`, {
+      const res = await fetch(`${apiBase}/activities`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {

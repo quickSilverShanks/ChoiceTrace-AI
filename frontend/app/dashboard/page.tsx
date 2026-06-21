@@ -18,7 +18,7 @@ import {
   Check, 
   ChevronRight, 
   Compass, 
-  TrendingUp, 
+  TrendingDown, 
   Trophy, 
   Zap, 
   Info,

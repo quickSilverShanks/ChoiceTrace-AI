@@ -38,7 +38,7 @@ export default function RoadmapPage() {
   const fetchRoadmap = async () => {
     if (!token) return;
     try {
-      const res = await fetch(`${apiBase}/roadmap/`, {
+      const res = await fetch(`${apiBase}/roadmap`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
