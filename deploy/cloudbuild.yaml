@@ -36,7 +36,7 @@ steps:
     args:
       - '-c'
       - |
-        BACKEND_URL=$(gcloud run services describe choicetrace-backend --platform=managed --region=${_REGION} --format="value(status.url)")
+        BACKEND_URL=$(gcloud run services describe choicetrace-backend --project=${PROJECT_ID} --platform=managed --region=${_REGION} --format="value(status.url)")
         echo "Successfully retrieved backend URL: $$BACKEND_URL"
         gcloud run deploy choicetrace-frontend \
           --image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/frontend-image:${_COMMIT_SHA} \

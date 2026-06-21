@@ -1,18 +1,18 @@
 "use client";
 
 import React, { useState, useEffect, createContext, useContext } from 'react';
-import { 
-  Home, 
-  MessageSquare, 
-  Award, 
-  TrendingUp, 
-  Calendar, 
-  MapPin, 
-  User, 
-  Users, 
-  Leaf, 
-  Zap, 
-  Flame, 
+import {
+  Home,
+  MessageSquare,
+  Award,
+  TrendingUp,
+  Calendar,
+  MapPin,
+  User,
+  Users,
+  Leaf,
+  Zap,
+  Flame,
   Sparkles,
   RefreshCw,
   Menu,
@@ -74,7 +74,7 @@ export default function RootLayout({
     async function loginAndFetch() {
       try {
         let activeToken = localStorage.getItem('choicetrace_token');
-        
+
         if (!activeToken) {
           // Log in with seeded user credentials
           const res = await fetch(`${apiBase}/auth/login`, {
@@ -82,14 +82,14 @@ export default function RootLayout({
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: "demo_user", password: "password123" })
           });
-          
+
           if (res.ok) {
             const data = await res.json();
             activeToken = data.access_token;
             localStorage.setItem('choicetrace_token', activeToken || '');
           }
         }
-        
+
         if (activeToken) {
           setToken(activeToken);
           // Fetch user details
@@ -107,7 +107,7 @@ export default function RootLayout({
         setLoading(false);
       }
     }
-    
+
     loginAndFetch();
   }, [refreshTrigger]);
 
@@ -163,7 +163,7 @@ export default function RootLayout({
       <body className="font-sans antialiased text-white bg-darkbg-200">
         <AppContext.Provider value={{ token, user, loading, apiBase, refreshStats, setPersona }}>
           <div className="flex min-h-screen">
-            
+
             {/* Sidebar Navigation - Desktop */}
             <aside className="hidden lg:flex flex-col w-64 glass-panel border-r border-slate-800 p-5 shrink-0 select-none">
               {/* Logo / Header */}
@@ -193,11 +193,10 @@ export default function RootLayout({
                       key={p.id}
                       onClick={() => setPersona(p.id)}
                       disabled={switchingPersona || user?.persona === p.id}
-                      className={`text-left text-xs px-2.5 py-1.5 rounded-lg border transition-all ${
-                        user?.persona === p.id 
-                        ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 font-semibold' 
-                        : 'bg-transparent border-slate-800 text-slate-400 hover:bg-slate-800 hover:text-white'
-                      }`}
+                      className={`text-left text-xs px-2.5 py-1.5 rounded-lg border transition-all ${user?.persona === p.id
+                          ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 font-semibold'
+                          : 'bg-transparent border-slate-800 text-slate-400 hover:bg-slate-800 hover:text-white'
+                        }`}
                     >
                       {p.label}
                     </button>
@@ -213,11 +212,10 @@ export default function RootLayout({
                     <a
                       key={item.name}
                       href={item.path}
-                      className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                        isActive
+                      className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${isActive
                           ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-emerald-400 border-l-4 border-emerald-500 pl-3 font-semibold'
                           : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-100'
-                      }`}
+                        }`}
                     >
                       <item.icon className="h-5 w-5 shrink-0" />
                       <span>{item.name}</span>
@@ -238,7 +236,7 @@ export default function RootLayout({
                 <Leaf className="h-5 w-5 text-emerald-400" />
                 <span className="font-bold text-lg">ChoiceTrace AI</span>
               </div>
-              <button 
+              <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="p-1 text-slate-400 hover:text-white"
               >
@@ -261,11 +259,10 @@ export default function RootLayout({
                           setPersona(p.id);
                           setMobileMenuOpen(false);
                         }}
-                        className={`text-sm px-3 py-2 rounded-xl border text-center transition-all ${
-                          user?.persona === p.id 
-                          ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400 font-semibold' 
-                          : 'bg-slate-800/40 border-slate-800 text-slate-400'
-                        }`}
+                        className={`text-sm px-3 py-2 rounded-xl border text-center transition-all ${user?.persona === p.id
+                            ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400 font-semibold'
+                            : 'bg-slate-800/40 border-slate-800 text-slate-400'
+                          }`}
                       >
                         {p.label.split(' ')[1]}
                       </button>
@@ -291,7 +288,7 @@ export default function RootLayout({
 
             {/* Main Application Area */}
             <main className="flex-1 flex flex-col pt-14 lg:pt-0 overflow-y-auto">
-              
+
               {/* Top Stats Dashboard Bar */}
               {user && (
                 <header className="glass-panel border-b border-slate-800 px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 select-none">
@@ -319,7 +316,7 @@ export default function RootLayout({
                           <span>{user.xp} / {xpNeeded}</span>
                         </div>
                         <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-                          <div 
+                          <div
                             className="bg-gradient-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-500"
                             style={{ width: `${xpProgressPercent}%` }}
                           />
