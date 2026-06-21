@@ -6,7 +6,7 @@ from app.database import Base
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     persona = Column(String, default="professional")  # student, professional, commuter, family, enthusiast
@@ -29,7 +29,7 @@ class User(Base):
 class ActivityLog(Base):
     __tablename__ = "activity_logs"
 
-    id = Column(Integer, primary key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     activity_type = Column(String, index=True)  # commute, food, grocery, shopping, energy, travel, entertainment
     title = Column(String)
@@ -49,7 +49,7 @@ class ActivityLog(Base):
 class Challenge(Base):
     __tablename__ = "challenges"
 
-    id = Column(Integer, primary key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     title = Column(String)
     description = Column(String)
@@ -65,7 +65,7 @@ class Challenge(Base):
 class Badge(Base):
     __tablename__ = "badges"
 
-    id = Column(Integer, primary key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     name = Column(String)  # e.g., "7 Day Green Streak", "Public Transport Champion"
     description = Column(String)
@@ -77,7 +77,7 @@ class Badge(Base):
 class RoadmapItem(Base):
     __tablename__ = "roadmap_items"
 
-    id = Column(Integer, primary key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     day_number = Column(Integer)  # 1 to 30
     title = Column(String)
@@ -93,7 +93,7 @@ class RoadmapItem(Base):
 class Simulation(Base):
     __tablename__ = "simulations"
 
-    id = Column(Integer, primary key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     name = Column(String)
     details = Column(String)  # JSON string or description
